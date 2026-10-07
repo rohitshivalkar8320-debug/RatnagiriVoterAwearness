@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\faiza\\Downloads\\jakarta.servlet-api-6.0.0.jar"
+    ]
+}

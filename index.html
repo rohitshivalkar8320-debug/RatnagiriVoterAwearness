@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>लोकशाही जागर - रत्नागिरी ४१५६१२ | Ratnagiri Voter Awareness</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        konkan: {
+                            saffron: '#FF6B00',
+                            navy: '#0F2C59',
+                            sea: '#0081A7',
+                            sand: '#FDFBF7',
+                            green: '#2D6A4F'
+                        }
+                    },
+                    fontFamily: {
+                        marathi: ['"Baloo 2"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Baloo 2', 'Inter', sans-serif;
+            background-color: #F8FAF8;
+        }
+        .konkan-gradient {
+            background: linear-gradient(135deg, #0F2C59 0%, #0081A7 60%, #2D6A4F 100%);
+        }
+        .wave-bg {
+            background-image: radial-gradient(#0081A7 0.75px, transparent 0.75px), radial-gradient(#0081A7 0.75px, #FDFBF7 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.15;
+        }
+        .cert-border {
+            border: 10px double #0F2C59;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0081A7; border-radius: 4px; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased flex flex-col min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-orange-500 text-white py-1 px-4 text-xs md:text-sm text-center font-bold flex justify-between items-center px-4 md:px-8">
+        <span id="top-announcement" class="truncate">
+            📢 रत्नागिरी मतदार नोंदणी व जागर अभियान | हेल्पलाइन: 1950 | जिल्हाधिकारी कार्यालय: 02352-222201
+        </span>
+        <div class="flex items-center space-x-2 shrink-0">
+            <span class="text-xs bg-white text-slate-900 px-2 py-0.5 rounded-full font-bold">PIN 415612</span>
+            <button onclick="toggleLanguage()" class="bg-slate-900 text-white text-xs px-2.5 py-1 rounded hover:bg-opacity-90 transition font-bold flex items-center gap-1">
+                <i class="fa-solid fa-language"></i> <span id="lang-btn-text">English</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 border-b-2 border-orange-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg border-2 border-orange-500">
+                        <i class="fa-solid fa-vote-yea text-orange-500"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight leading-none" id="brand-title">लोकशाही जागर</h1>
+                        <p class="text-xs md:text-sm font-medium text-cyan-600" id="brand-subtitle">रत्नागिरी व कोकण विभाग मतदार जनजागृती</p>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-6 font-semibold text-gray-700 text-sm">
+                    <a href="#info-center" class="hover:text-orange-500 transition"><i class="fa-solid fa-compass mr-1"></i> <span data-key="nav-info">मतदार माहिती</span></a>
+                    <a href="#lookup" class="hover:text-orange-500 transition"><i class="fa-solid fa-search-location mr-1"></i> <span data-key="nav-lookup">केंद्र शोध</span></a>
+                    <a href="#checklist" class="hover:text-orange-500 transition"><i class="fa-solid fa-list-check mr-1"></i> <span data-key="nav-checklist">नोंदणी मार्गदर्शक</span></a>
+                    <a href="#quiz" class="hover:text-orange-500 transition"><i class="fa-solid fa-graduation-cap mr-1"></i> <span data-key="nav-quiz">ज्ञान स्पर्धा</span></a>
+                    <a href="#pledge" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition shadow-md"><i class="fa-solid fa-award mr-1"></i> <span data-key="nav-pledge">प्रतिज्ञा पत्र</span></a>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-slate-900 text-2xl focus:outline-none p-2">
+                        <i class="fa-solid fa-bars" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-50 border-t border-gray-200 px-4 pt-2 pb-4 space-y-2 text-sm font-semibold">
+            <a href="#info-center" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-orange-500 border-b border-gray-100"><i class="fa-solid fa-compass mr-2"></i> <span data-key="nav-info">मतदार माहिती</span></a>
+            <a href="#lookup" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-orange-500 border-b border-gray-100"><i class="fa-solid fa-search-location mr-2"></i> <span data-key="nav-lookup">केंद्र शोध</span></a>
+            <a href="#checklist" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-orange-500 border-b border-gray-100"><i class="fa-solid fa-list-check mr-2"></i> <span data-key="nav-checklist">नोंदणी मार्गदर्शक</span></a>
+            <a href="#quiz" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-orange-500 border-b border-gray-100"><i class="fa-solid fa-graduation-cap mr-2"></i> <span data-key="nav-quiz">ज्ञान स्पर्धा</span></a>
+            <a href="#pledge" onclick="toggleMobileMenu()" class="block py-2 text-orange-500 font-bold"><i class="fa-solid fa-award mr-2"></i> <span data-key="nav-pledge">प्रतिज्ञा पत्र</span></a>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header class="konkan-gradient text-white relative overflow-hidden py-12 md:py-20 px-4">
+        <div class="absolute inset-0 wave-bg"></div>
+        <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <div class="md:col-span-7 space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-white/30">
+                    <i class="fa-solid fa-location-dot text-orange-500"></i> <span>रत्नागिरी ४१५६१२ व संपूर्ण कोकण परिसर</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight" id="hero-heading">
+                    माझे मत, कोकणाचा विकास! <br><span class="text-orange-500">१००% मतदानाचा संकल्प</span>
+                </h1>
+                <p class="text-base md:text-lg text-slate-100 font-light max-w-2xl" id="hero-subtext">
+                    रत्नागिरी विधानसभा क्षेत्र (266), रत्नागिरी-सिंधुदुर्ग लोकसभा मतदारसंघातील सर्व नागरिकांना आवाहन - आपला मतदानाचा हक्क बजवा. प्रत्येक मत महत्त्वाचे आहे!
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
+                    <a href="#lookup" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass-location"></i> <span data-key="hero-btn-lookup">तुमचे मतदान केंद्र शोधा</span>
+                    </a>
+                    <a href="#pledge" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/40 font-bold px-6 py-3 rounded-xl transition flex items-center gap-2">
+                        <i class="fa-solid fa-certificate"></i> <span data-key="hero-btn-pledge">डिजिटल प्रतिज्ञा घ्या</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Electoral Highlights & Quick Stats Widget -->
+            <div class="md:col-span-5 bg-white text-gray-800 rounded-2xl shadow-2xl p-6 border-t-4 border-orange-500 relative">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn text-orange-500"></i> <span id="stat-widget-title">रत्नागिरी मतदार तक्ता</span>
+                    </h3>
+                    <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">SVEEP 2026</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                        <p class="text-xs text-gray-500 font-medium" id="lbl-pc">लोकसभा संघ</p>
+                        <p class="font-bold text-sm text-slate-900 truncate" title="रत्नागिरी - सिंधुदुर्ग">रत्नागिरी-सिंधुदुर्ग</p>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-xl border border-orange-100">
+                        <p class="text-xs text-gray-500 font-medium" id="lbl-ac">विधानसभा संघ</p>
+                        <p class="font-bold text-sm text-slate-900">266 - रत्नागिरी</p>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs md:text-sm">
+                    <div class="flex justify-between items-center p-2 rounded bg-slate-50">
+                        <span class="text-gray-600"><i class="fa-solid fa-map-pin text-orange-500 mr-1"></i> मुख्य पिनकोड:</span>
+                        <span class="font-bold text-gray-800">415612 (रत्नागिरी शहर)</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 rounded bg-slate-50">
+                        <span class="text-gray-600"><i class="fa-solid fa-headset text-cyan-600 mr-1"></i> व्होटर हेल्पलाइन:</span>
+                        <a href="tel:1950" class="font-extrabold text-orange-500 hover:underline">1950 (Toll-Free)</a>
+                    </div>
+                    <div class="flex justify-between items-center p-2 rounded bg-slate-50">
+                        <span class="text-gray-600"><i class="fa-solid fa-building-columns text-emerald-600 mr-1"></i> जिल्हा निवडणूक कक्ष:</span>
+                        <span class="font-bold text-gray-800">रत्नागिरी Collectorate</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t text-center">
+                    <p class="text-xs text-gray-500 font-medium" id="sveep-slogan-preview">
+                        "माझा कोकण, माझी जबाबदारी - मी मतदान करणारच!"
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- All 6 Assembly Constituencies & PC Section -->
+        <section id="info-center" class="scroll-mt-24">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-orange-500 font-bold text-sm tracking-wider uppercase" id="sec1-tag">कोकण मतदार मार्गदर्शिका</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1" id="sec1-title">रत्नागिरी जिल्ह्यातील प्रमुख मतदार क्षेत्रे</h2>
+                <p class="text-gray-600 mt-2 text-sm md:text-base" id="sec1-desc">
+                    रत्नागिरी जिल्ह्यातील ६ विधानसभा क्षेत्रे व १ लोकसभा क्षेत्राची अधिकृत माहिती.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. AC 266 Ratnagiri -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-xl transition border-t-4 border-orange-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-orange-100 text-orange-500 text-xs font-bold px-2.5 py-1 rounded-full">AC 266</span>
+                        <i class="fa-solid fa-city text-2xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900">266 - रत्नागिरी</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-3">मुख्य भाग: रत्नागिरी शहर (415612), नाचणे, कारवांचली, झाडगाव, शिरगाव, मिऱ्या.</p>
+                    <div class="text-xs bg-slate-50 p-2.5 rounded text-gray-700 space-y-1">
+                        <div><strong>तहसील कार्यालय:</strong> रत्नागिरी मुख्य (०२३५२-२२२२३०)</div>
+                        <div><strong>मुख्य केंद्रे:</strong> फाटक हायस्कूल, फाटक कॉलेज, गोगटे जोगळेकर कॉलेज</div>
+                    </div>
+                </div>
+
+                <!-- 2. AC 265 Chiplun -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-xl transition border-t-4 border-cyan-600">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-blue-100 text-cyan-600 text-xs font-bold px-2.5 py-1 rounded-full">AC 265</span>
+                        <i class="fa-solid fa-water text-2xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900">265 - चिपळूण</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-3">मुख्य भाग: चिपळूण नगरपरिषद क्षेत्र, सावर्डे, खेर्डी, अलोरे व परिसर.</p>
+                    <div class="text-xs bg-slate-50 p-2.5 rounded text-gray-700 space-y-1">
+                        <div><strong>तहसील कार्यालय:</strong> चिपळूण (०२३५५-२५२२३३)</div>
+                        <div><strong>मुख्य केंद्रे:</strong> युनायटेड हायस्कूल, डी.बी.जे. कॉलेज</div>
+                    </div>
+                </div>
+
+                <!-- 3. AC 264 Guhagar -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-xl transition border-t-4 border-emerald-600">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-emerald-100 text-emerald-600 text-xs font-bold px-2.5 py-1 rounded-full">AC 264</span>
+                        <i class="fa-solid fa-umbrella-beach text-2xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900">264 - गुहागर</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-3">मुख्य भाग: गुहागर, शृंगारतळी, वेलदूर, आबलोली, हेदवी.</p>
+                    <div class="text-xs bg-slate-50 p-2.5 rounded text-gray-700 space-y-1">
+                        <div><strong>तहसील कार्यालय:</strong> गुहागर (०२३५९-२४०२२४)</div>
+                        <div><strong>मुख्य केंद्रे:</strong> गुहागर हायस्कूल, शृंगारतळी शाळा</div>
+                    </div>
+                </div>
+
+                <!-- 4. AC 267 Rajapur -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-xl transition border-t-4 border-purple-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">AC 267</span>
+                        <i class="fa-solid fa-tree text-2xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900">267 - राजापूर</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-3">मुख्य भाग: राजापूर शहर, लांजा, ओणी, पाचल, राजापूर ग्रामीण.</p>
+                    <div class="text-xs bg-slate-50 p-2.5 rounded text-gray-700 space-y-1">
+                        <div><strong>तहसील कार्यालय:</strong> राजापूर व लांजा तहसील</div>
+                        <div><strong>मुख्य केंद्रे:</strong> हायस्कूल राजापूर, लांजा कॉलेज</div>
+                    </div>
+                </div>
+
+                <!-- 5. AC 263 Dapoli -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-xl transition border-t-4 border-amber-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">AC 263</span>
+                        <i class="fa-solid fa-mountain-sun text-2xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900">263 - दापोली</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-3">मुख्य भाग: दापोली, मंडणगड, खेड, आंजर्ले, दाभोळ.</p>
+                    <div class="text-xs bg-slate-50 p-2.5 rounded text-gray-700 space-y-1">
+                        <div><strong>तहसील कार्यालय:</strong> दापोली (०२३५८-२८२१२१)</div>
+                        <div><strong>मुख्य केंद्रे:</strong> ए.जी. हायस्कूल, कृषी विद्यापीठ केंद्र</div>
+                    </div>
+                </div>
+
+                <!-- 6. PC 48 Ratnagiri-Sindhudurg -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl shadow-md p-6 hover:shadow-xl transition border-t-4 border-orange-500 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">PC 48</span>
+                            <i class="fa-solid fa-landmark text-2xl text-slate-400"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-white">48 - रत्नागिरी-सिंधुदुर्ग लोकसभा</h3>
+                        <p class="text-xs text-slate-300 mt-1 mb-3">एकूण ६ विधानसभा क्षेत्रांचा समावेश. रत्नागिरी व सिंधुदुर्ग जिल्ह्यांचा संयुक्त लोकसभा मतदारसंघ.</p>
+                    </div>
+                    <a href="https://voters.eci.gov.in" target="_blank" class="inline-flex items-center justify-center gap-1 text-xs bg-white text-slate-900 font-bold py-2 px-3 rounded hover:bg-slate-100 transition">
+                        ECI पोर्टलला भेट द्या <i class="fa-solid fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Polling Station Search & BLO Directory Section -->
+        <section id="lookup" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-gray-100 scroll-mt-24">
+            <div class="max-w-3xl mx-auto text-center mb-8">
+                <span class="bg-blue-100 text-cyan-600 font-bold text-xs px-3 py-1 rounded-full uppercase" id="lookup-tag">स्थानिक मदत केंद्र</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-2" id="lookup-title">रत्नागिरी पिनकोड व भागानुसार मतदान केंद्र शोधा</h2>
+                <p class="text-gray-600 text-sm md:text-base mt-1" id="lookup-subtitle">
+                    तुमचा पिनकोड किंवा परिसर निवडा (उदा. 415612 - नाचणे / कारवांचली / शहर) आणि संबंधित BLO संपर्क मिळवा.
+                </p>
+            </div>
+
+            <div class="max-w-2xl mx-auto bg-slate-50 p-4 md:p-6 rounded-2xl border border-slate-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-select-pin">पिनकोड निवडा / Select Pincode</label>
+                        <select id="pincode-select" onchange="fetchPollingDataFromServlet()" class="w-full p-3 rounded-xl border-gray-300 border focus:ring-2 focus:ring-cyan-600 text-sm font-semibold text-gray-800 bg-white">
+                            <option value="all">सर्व पिनकोड दाखवा (All Pincodes)</option>
+                            <option value="415612" selected>415612 - रत्नागिरी शहर / नाचणे / कारवांचली</option>
+                            <option value="415639">415639 - रत्नागिरी एमआयडीसी / मिरजोळे</option>
+                            <option value="415605">415605 - मालगुंड / गणपतीपुळे</option>
+                            <option value="415606">415606 - पावस / पूर्णगड</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-search-area">परिसर / प्रभाग नाव शोधा</label>
+                        <div class="relative">
+                            <input type="text" id="area-search-input" onkeyup="filterLocalData()" placeholder="उदा. नाचणे, गोगटे, कारवांचली..." class="w-full p-3 rounded-xl border-gray-300 border focus:ring-2 focus:ring-cyan-600 text-sm bg-white pl-9">
+                            <i class="fa-solid fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-gray-500">
+                    <span>* Java Servlet Backend द्वारे थेट जोडलेले डेटाबेस सर्च.</span>
+                    <button onclick="resetSearch()" class="text-orange-500 underline font-bold">सर्व दाखवा</button>
+                </div>
+            </div>
+
+            <div class="mt-8 overflow-x-auto">
+                <table class="w-full text-left text-xs md:text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                            <th class="p-3.5 rounded-tl-lg">भाग / प्रभाग (Ward)</th>
+                            <th class="p-3.5">पिनकोड</th>
+                            <th class="p-3.5">सूचविलेले मतदान केंद्र</th>
+                            <th class="p-3.5">BLO अधिकारी / संपर्क</th>
+                            <th class="p-3.5 rounded-tr-lg text-center">क्रिया</th>
+                        </tr>
+                    </thead>
+                    <tbody id="polling-results-body" class="divide-y divide-gray-200 text-gray-700">
+                        <!-- Dynamically populated from VoterSearchServlet API -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Checklist Section -->
+        <section id="checklist" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <div class="lg:col-span-7 bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <span class="text-xs text-orange-500 font-bold uppercase" id="chk-tag">नवीन मतदारांसाठी</span>
+                            <h2 class="text-2xl font-extrabold text-slate-900" id="chk-title">मतदार नोंदणी तपासणी सूची (Checklist)</h2>
+                        </div>
+                        <div class="text-right">
+                            <span id="checklist-progress-text" class="text-xs font-bold text-cyan-600">0% पूर्ण</span>
+                            <div class="w-24 bg-gray-200 h-2 rounded-full mt-1 overflow-hidden">
+                                <div id="checklist-progress-bar" class="bg-cyan-600 h-full w-0 transition-all duration-300"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4" id="checklist-items">
+                        <label class="flex items-start p-3.5 rounded-xl border border-gray-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-1 w-5 h-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm text-gray-800">वयाची १८ वर्षे पूर्ण झाली आहेत (१ जानेवारी २०२६ ची पात्रता तारीख)</p>
+                                <p class="text-xs text-gray-500">पहिल्यांदाच मतदार होणाऱ्या नवयुवकांसाठी अनिवार्य अट.</p>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start p-3.5 rounded-xl border border-gray-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-1 w-5 h-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm text-gray-800">ओळख व वयाचा पुरावा तयार आहे</p>
+                                <p class="text-xs text-gray-500">आधार कार्ड, जन्म दाखला, शाळा सोडल्याचा दाखला किंवा पासपोर्ट.</p>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start p-3.5 rounded-xl border border-gray-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-1 w-5 h-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm text-gray-800">रत्नागिरीतील रहिवासाचा पुरावा तयार आहे</p>
+                                <p class="text-xs text-gray-500">वीज बिल, लाईट बिल (415612 परिसरातील), बँक पासबुक किंवा रेशन कार्ड.</p>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start p-3.5 rounded-xl border border-gray-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-1 w-5 h-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm text-gray-800">पासपोर्ट आकाराचा रंगीत फोटो</p>
+                                <p class="text-xs text-gray-500">ताजा पासपोर्ट फोटो (पांढऱ्या बॅकग्राउंडसह).</p>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start p-3.5 rounded-xl border border-gray-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-1 w-5 h-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500">
+                            <div class="ml-3">
+                                <p class="font-bold text-sm text-gray-800">NVSP पोर्टल किंवा Voter Helpline App द्वारे अर्ज सादर केला</p>
+                                <p class="text-xs text-gray-500">ऑनलाइन Form 6 भरून Reference ID मिळवला आहे.</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2 text-orange-500 mb-4">
+                            <i class="fa-solid fa-file-signature text-2xl"></i>
+                            <h3 class="text-xl font-bold">महत्त्वाचे अर्ज प्रकार (Forms)</h3>
+                        </div>
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-white/10 p-3.5 rounded-xl border border-white/10">
+                                <div class="flex justify-between font-bold text-white mb-1"><span class="text-orange-500">नमुना अर्ज ६ (Form 6)</span><span class="text-emerald-400">नवीन नोंदणी</span></div>
+                                <p class="text-slate-300">नवीन मतदारांसाठी किंवा दुसऱ्या मतदारसंघातून रत्नागिरीत स्थलांतरित झालेल्यांसाठी.</p>
+                            </div>
+                            <div class="bg-white/10 p-3.5 rounded-xl border border-white/10">
+                                <div class="flex justify-between font-bold text-white mb-1"><span>नमुना अर्ज ६-क (Form 6A)</span><span class="text-blue-300">NRI</span></div>
+                                <p class="text-slate-300">परदेशात वास्तव्यास असलेल्या भारतीय नागरिकांसाठी नोंदणी अर्ज.</p>
+                            </div>
+                            <div class="bg-white/10 p-3.5 rounded-xl border border-white/10">
+                                <div class="flex justify-between font-bold text-white mb-1"><span>नमुना अर्ज ७ (Form 7)</span><span class="text-rose-400">नाव वगळणे</span></div>
+                                <p class="text-slate-300">मतदार यादीतून नाव वगळण्यासाठी किंवा आक्षेप घेण्यासाठी.</p>
+                            </div>
+                            <div class="bg-white/10 p-3.5 rounded-xl border border-white/10">
+                                <div class="flex justify-between font-bold text-white mb-1"><span class="text-orange-500">नमुना अर्ज ८ (Form 8)</span><span class="text-amber-300">दुरुस्ती / बदल</span></div>
+                                <p class="text-slate-300">पत्ता बदल, नावात दुरुस्ती, ई-एपिक किंवा नवीन मतदार ओळखपत्रासाठी.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center pt-4 border-t border-white/10">
+                        <a href="https://voters.eci.gov.in" target="_blank" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm py-2.5 px-6 rounded-xl transition shadow">
+                            <i class="fa-solid fa-globe mr-1"></i> Voters Service Portal (VSP)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section (Connected to QuizServlet) -->
+        <section id="quiz" class="bg-gradient-to-br from-amber-50 via-orange-50 to-emerald-50 rounded-2xl p-6 md:p-10 border border-orange-200 shadow-md scroll-mt-24">
+            <div class="max-w-3xl mx-auto text-center mb-8">
+                <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="quiz-badge-tag">युवा मतदार जागर</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-2" id="quiz-title">लोकशाही ज्ञान चाचणी (Electoral Quiz)</h2>
+                <p class="text-gray-600 text-sm md:text-base mt-1" id="quiz-subtitle">
+                    तुमचे लोकशाही आणि मतदान प्रक्रियेबाबतचे ज्ञान तपासा व 'जागरूक कोकणी मतदार' प्रमाणपत्र पदवी मिळवा!
+                </p>
+            </div>
+
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
+                <div id="quiz-box">
+                    <div class="flex justify-between items-center border-b pb-3 mb-4">
+                        <span class="text-xs font-bold text-cyan-600" id="quiz-step-counter">प्रश्न १ / ४</span>
+                        <span class="text-xs font-bold bg-orange-100 text-orange-500 px-2.5 py-0.5 rounded-full" id="quiz-score-display">गुण: ०</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-900 mb-4" id="quiz-question-text">प्रश्न लोड होत आहे...</h3>
+
+                    <div class="space-y-3" id="quiz-options"></div>
+                    <div id="quiz-feedback" class="mt-4 p-3 rounded-lg text-xs font-bold hidden"></div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition">
+                            पुढील प्रश्न <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="quiz-result" class="hidden text-center py-6 space-y-4">
+                    <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto text-emerald-600 text-4xl shadow-inner">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900">अभिनंदन! तुम्ही क्विझ पूर्ण केली!</h3>
+                    <p class="text-sm text-gray-600" id="quiz-result-score-text">तुमचा निकाल: ४ पैकी ४ गुण</p>
+                    <div class="inline-block bg-amber-100 text-amber-800 font-extrabold text-xs px-4 py-2 rounded-full border border-amber-300">
+                        🏆 प्राप्त पदवी: "जागरूक कोकणी मतदार २०२६"
+                    </div>
+                    <div class="pt-4">
+                        <button onclick="resetQuiz()" class="bg-cyan-600 hover:bg-teal-700 text-white font-bold text-xs px-5 py-2.5 rounded-lg transition mr-2">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> पुन्हा प्रयत्न करा
+                        </button>
+                        <a href="#pledge" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-5 py-2.5 rounded-lg transition">
+                            प्रतिज्ञा पत्र घ्या <i class="fa-solid fa-certificate ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Digital Pledge Section (Connected to PledgeServlet) -->
+        <section id="pledge" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-gray-100 scroll-mt-24">
+            <div class="max-w-3xl mx-auto text-center mb-8">
+                <span class="bg-emerald-100 text-emerald-600 font-bold text-xs px-3 py-1 rounded-full uppercase" id="pledge-tag">डिजिटल संकल्प पत्र</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-2" id="pledge-title">"मी मतदान करणार!" डिजिटल प्रतिज्ञा पत्र</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <form onsubmit="submitPledgeToServlet(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-pledge-name">पूर्ण नाव (प्रमाणपत्रावर छापण्यासाठी) *</label>
+                            <input type="text" id="pledge-name" required placeholder="उदा. मयुरेश अनंत कामत" class="w-full p-3 rounded-xl border-gray-300 border text-sm bg-white font-semibold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-pledge-area">परिसर / गाव / शहर *</label>
+                            <input type="text" id="pledge-area" required placeholder="उदा. नाचणे, रत्नागिरी (415612)" class="w-full p-3 rounded-xl border-gray-300 border text-sm bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-pledge-category">मतदार प्रकार</label>
+                            <select id="pledge-category" class="w-full p-3 rounded-xl border-gray-300 border text-sm bg-white font-medium">
+                                <option value="First Time Voter">प्रथमच मतदार (First Time Voter)</option>
+                                <option value="Regular Voter">नियमित मतदार (Regular Voter)</option>
+                                <option value="Senior Voter">ज्येष्ठ नागरिक मतदार (Senior Voter)</option>
+                                <option value="Youth Voter">युवा मतदार (Youth Voter)</option>
+                            </select>
+                        </div>
+
+                        <div class="p-3 bg-orange-50 rounded-xl border border-orange-200">
+                            <label class="flex items-start text-xs font-bold text-orange-900 cursor-pointer">
+                                <input type="checkbox" required checked class="mt-0.5 mr-2 text-orange-500 rounded border-orange-300">
+                                <span>"मी याद्वारे प्रतिज्ञा करतो/करते की मी येणाऱ्या सर्व निवडणुकांमध्ये निर्भयपणे व जबाबदारीने मतदान करेन."</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold py-3.5 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-award"></i> <span>प्रमाणपत्र तयार करा</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col items-center">
+                    <div id="certificate-card" class="w-full max-w-lg bg-amber-50 p-6 md:p-8 rounded-2xl cert-border shadow-2xl relative text-center text-slate-900 overflow-hidden">
+                        <div class="border-b-2 border-orange-500 pb-3 mb-4">
+                            <div class="flex justify-between items-center text-xs font-bold text-cyan-600">
+                                <span>रत्नागिरी SVEEP अभियान</span>
+                                <span>पिन ४१५६१२</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-slate-900 mt-1 uppercase">लोकशाही संकल्प पत्र</h3>
+                            <p class="text-xs font-semibold text-orange-500">DEMOCRATIC VOTER PLEDGE CERTIFICATE</p>
+                        </div>
+
+                        <div class="space-y-3 my-4">
+                            <p class="text-xs text-gray-600">प्रमाणित करण्यात येते की,</p>
+                            <h4 id="cert-display-name" class="text-xl md:text-2xl font-black text-orange-500 underline">[तुमचे नाव येथे दिसेल]</h4>
+                            <p class="text-xs text-gray-700 leading-relaxed px-4">
+                                यांनी कोकण व रत्नागिरी जिल्ह्याच्या लोकशाही बळकटीकरणासाठी जागरूक नागरिक म्हणून आगामी सार्वत्रिक निवडणुकीत <strong>१००% मतदान</strong> करण्याची प्रतिज्ञा घेतली आहे.
+                            </p>
+                            <p class="text-xs font-bold text-cyan-600" id="cert-display-area">स्थान: [रत्नागिरी]</p>
+                            <p class="text-[11px] text-gray-500" id="cert-display-id">प्रमाणपत्र क्रमांक: RTN-SVEEP-884920</p>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-300 flex justify-between items-end text-left">
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-500 uppercase">दिनांक / Date</p>
+                                <p id="cert-date" class="text-xs font-bold text-gray-800">08-10-2026</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-10 h-10 rounded-full border-2 border-orange-500 flex items-center justify-center text-orange-500 font-bold text-xs mx-auto mb-1">
+                                    <i class="fa-solid fa-check-double text-base"></i>
+                                </div>
+                                <p class="text-[10px] font-extrabold text-slate-900 uppercase">रत्नागिरी मतदार जनजागृती</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex gap-3">
+                        <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-print"></i> <span>प्रिंट / PDF जतन करा</span>
+                        </button>
+                        <button onclick="sharePledge()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-share-nodes"></i> <span>व्हॉट्सॲपवर शेअर करा</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slogans & Media Hub -->
+        <section id="media" class="scroll-mt-24">
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <span class="text-xs font-bold text-cyan-600 uppercase">SVEEP रत्नागिरी दालन</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">कोकणी संदेश व जनजागृती घोषवाक्ये</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="text-orange-500 text-2xl mb-3"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="font-extrabold text-gray-800 text-base mb-2">"हापूस आंबा कोकणाचा, हक्क बजावा मतदानाचा!"</p>
+                        <p class="text-xs text-gray-500 mb-4">स्थानिक कोकणी संस्कृतीवर आधारित SVEEP घोषवाक्य.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 flex justify-between items-center">
+                        <button onclick="speakSlogan('हापूस आंबा कोकणाचा, हक्क बजावा मतदानाचा!')" class="text-xs bg-orange-100 text-orange-500 font-bold py-1.5 px-3 rounded-lg"><i class="fa-solid fa-volume-high"></i> ऐका</button>
+                        <button onclick="copyText('हापूस आंबा कोकणाचा, हक्क बजावा मतदानाचा!')" class="text-xs text-gray-500 font-semibold"><i class="fa-solid fa-copy"></i> कॉपी</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="text-cyan-600 text-2xl mb-3"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="font-extrabold text-gray-800 text-base mb-2">"रत्नागिरीची एकच हाक, १०० टक्के मतदान हेच ध्येय!"</p>
+                        <p class="text-xs text-gray-500 mb-4">रत्नागिरी ४१५६१२ मधील सर्व मतदार बंधूंसाठी.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 flex justify-between items-center">
+                        <button onclick="speakSlogan('रत्नागिरीची एकच हाक, १०० टक्के मतदान हेच ध्येय!')" class="text-xs bg-blue-100 text-cyan-600 font-bold py-1.5 px-3 rounded-lg"><i class="fa-solid fa-volume-high"></i> ऐका</button>
+                        <button onclick="copyText('रत्नागिरीची एकच हाक, १०० टक्के मतदान हेच ध्येय!')" class="text-xs text-gray-500 font-semibold"><i class="fa-solid fa-copy"></i> कॉपी</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-600 text-2xl mb-3"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="font-extrabold text-gray-800 text-base mb-2">"पयलो मतदान, मग दुसरं काम! कोकणी भावांनो जागृत व्हा!"</p>
+                        <p class="text-xs text-gray-500 mb-4">मालवणी/कोकणी बोलीभाषेतील संदेश.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 flex justify-between items-center">
+                        <button onclick="speakSlogan('पयलो मतदान, मग दुसरं काम! कोकणी भावांनो जागृत व्हा!')" class="text-xs bg-emerald-100 text-emerald-600 font-bold py-1.5 px-3 rounded-lg"><i class="fa-solid fa-volume-high"></i> ऐका</button>
+                        <button onclick="copyText('पयलो मतदान, मग दुसरं काम! कोकणी भावांनो जागृत व्हा!')" class="text-xs text-gray-500 font-semibold"><i class="fa-solid fa-copy"></i> कॉपी</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helpline Section -->
+        <section class="bg-slate-900 text-white rounded-2xl p-6 md:p-10 shadow-xl">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 space-y-4">
+                    <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">महत्त्वाचे संपर्क व हेल्पलाइन</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold">काही अडचण किंवा तक्रार आहे?</h2>
+                    <p class="text-xs md:text-sm text-slate-300">
+                        रत्नागिरी जिल्हा निवडणूक अधिकारी कार्यालय, तहसील कार्यालये किंवा राष्ट्रीय हेल्पलाइन १८००-११-१९५० वर मोफत संपर्क साधा.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <a href="tel:1950" class="bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-phone-volume"></i> <span>1950 वर कॉल करा</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-5 bg-white/10 backdrop-blur-md p-5 rounded-xl border border-white/10 space-y-3 text-xs">
+                    <h4 class="font-bold text-sm text-orange-500 border-b border-white/10 pb-2">रत्नागिरी जिल्हा निवडणूक संपर्क</h4>
+                    <div class="flex justify-between py-1"><span class="text-slate-300">जिल्हाधिकारी कार्यालय:</span><a href="tel:02352222201" class="font-bold">02352-222201</a></div>
+                    <div class="flex justify-between py-1"><span class="text-slate-300">उपजिल्हा निवडणूक अधिकारी:</span><a href="tel:02352222230" class="font-bold">02352-222230</a></div>
+                    <div class="flex justify-between py-1"><span class="text-slate-300">रत्नागिरी तहसील कक्ष (415612):</span><a href="tel:02352222224" class="font-bold">02352-222224</a></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t-4 border-orange-500 text-xs text-center">
+        <p class="font-bold text-white text-sm">लोकशाही जागर - रत्नागिरी व कोकण विभाग</p>
+        <p class="mt-1">स्वीप (SVEEP) संकल्पनेवर आधारित डिजिटल मतदार जनजागृती प्लॅटफॉर्म | पिनकोड ४१५६१२</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let currentLang = 'mr';
+        let allPollingData = [];
+        let quizQuestionsData = [];
+        let currentQIndex = 0;
+        let quizScore = 0;
+        let answered = false;
+
+        // Fetch Polling Stations from VoterSearchServlet
+        function fetchPollingDataFromServlet() {
+            const pinSelect = document.getElementById('pincode-select').value;
+            fetch(`api/search?pincode=${encodeURIComponent(pinSelect)}`)
+                .then(res => res.json())
+                .then(data => {
+                    allPollingData = data.data || [];
+                    filterLocalData();
+                })
+                .catch(() => {
+                    // Client-side fallback dataset if servlet server is offline
+                    allPollingData = [
+                        { pin: "415612", area: "नाचणे रोड / Nachane Road", station: "फाटक हायस्कूल (नवीन इमारत), खोली क्र. २", blo: "श्री. आर. व्ही. सावंत", phone: "94220XXXX1" },
+                        { pin: "415612", area: "कारवांचली / Karwanchali", station: "गोगटे जोगळेकर कॉलेज, विज्ञान शाखा हॉल", blo: "सौ. एस. एस. जोशी", phone: "98231XXXX2" },
+                        { pin: "415612", area: "झाडगाव व किल्ला / Zadgaon", station: "जिल्हा परिषद शाळा झाडगाव क्र. १", blo: "श्री. ए. पी. कदम", phone: "94043XXXX3" },
+                        { pin: "415612", area: "शिरगाव / Shirgaon", station: "ग्रामपंचायत हॉल शिरगाव", blo: "श्री. एम. डी. पाटणकर", phone: "99701XXXX4" },
+                        { pin: "415612", area: "मिऱ्या & भगवती / Mirya", station: "मच्छीमार संस्था प्राथमिक शाळा मिऱ्या", blo: "सौ. के. एन. बांदकर", phone: "98224XXXX5" },
+                        { pin: "415639", area: "एमआयडीसी / Mirjole MIDC", station: "जि. प. शाळा मिरजोळे क्र. २", blo: "श्री. एस. बी. पवार", phone: "94211XXXX6" },
+                        { pin: "415605", area: "मालगुंड / Malgund", station: "कवी केशवसुत स्मारक प्राथमिक शाळा", blo: "श्री. व्ही. टी. सुर्वे", phone: "94224XXXX7" },
+                        { pin: "415606", area: "पावस / Pawas", station: "स्वामी स्वरूपानंद हायस्कूल पावस", blo: "श्री. के. आर. देसाई", phone: "98235XXXX8" }
+                    ];
+                    filterLocalData();
+                });
+        }
+
+        function filterLocalData() {
+            const pinSelect = document.getElementById('pincode-select').value;
+            const searchText = document.getElementById('area-search-input').value.toLowerCase();
+
+            const filtered = allPollingData.filter(item => {
+                const matchPin = (pinSelect === 'all' || item.pin === pinSelect);
+                const matchSearch = item.area.toLowerCase().includes(searchText) || item.station.toLowerCase().includes(searchText);
+                return matchPin && matchSearch;
+            });
+
+            renderPollingTable(filtered);
+        }
+
+        function renderPollingTable(list) {
+            const tbody = document.getElementById('polling-results-body');
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-500 font-medium">कोणतेही केंद्र आढळले नाही. कृपया शोध शब्द बदला.</td></tr>`;
+                return;
+            }
+
+            list.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="p-3.5 font-bold text-slate-900">${item.area}</td>
+                    <td class="p-3.5"><span class="bg-slate-100 text-slate-800 px-2 py-1 rounded text-xs font-semibold">${item.pin}</span></td>
+                    <td class="p-3.5 text-gray-800">${item.station}</td>
+                    <td class="p-3.5">
+                        <div class="font-semibold text-gray-800">${item.blo}</div>
+                        <div class="text-xs text-cyan-600"><i class="fa-solid fa-phone text-[10px]"></i> ${item.phone}</div>
+                    </td>
+                    <td class="p-3.5 text-center">
+                        <a href="https://electoralsearch.eci.gov.in" target="_blank" class="text-xs bg-orange-500 hover:bg-orange-600 text-white font-bold px-2.5 py-1.5 rounded transition inline-flex items-center gap-1">
+                            यादीत शोधा
+                        </a>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function resetSearch() {
+            document.getElementById('area-search-input').value = '';
+            document.getElementById('pincode-select').value = 'all';
+            fetchPollingDataFromServlet();
+        }
+
+        // Fetch Quiz Data from QuizServlet
+        function fetchQuizDataFromServlet() {
+            fetch('api/quiz')
+                .then(res => res.json())
+                .then(data => {
+                    quizQuestionsData = data.questions;
+                    loadQuestion();
+                })
+                .catch(() => {
+                    // Fallback questions dataset
+                    quizQuestionsData = [
+                        {
+                            q: "भारत निवडणूक आयोगाच्या नियमानुसार मतदानासाठी किमान पात्रता वय किती असावे लागते?",
+                            q_en: "What is the minimum eligible age for voting in India?",
+                            options: ["१६ वर्षे", "१८ वर्षे", "२१ वर्षे", "२५ वर्षे"],
+                            options_en: ["16 Years", "18 Years", "21 Years", "25 Years"],
+                            correct: 1,
+                            exp: "१८ वर्षे पूर्ण झालेल्या सर्व भारतीय नागरिकांना मतदानाचा अधिकार मिळतो."
+                        },
+                        {
+                            q: "रत्नागिरी शहराचा (415612) मुख्य विधानसभा मतदारसंघ क्रमांक कोणता आहे?",
+                            q_en: "What is the Assembly Constituency Number for Ratnagiri City (415612)?",
+                            options: ["२६३ (दापोली)", "२६५ (चिपळूण)", "२६६ (रत्नागिरी)", "२६७ (राजापूर)"],
+                            options_en: ["263 (Dapoli)", "265 (Chiplun)", "266 (Ratnagiri)", "267 (Rajapur)"],
+                            correct: 2,
+                            exp: "रत्नागिरी शहर व लगतचा परिसर विधानसभा क्रमांक २६६ मध्ये येतो."
+                        },
+                        {
+                            q: "नवीन मतदार नोंदणीसाठी (New Voter Registration) कोणता अर्ज (Form) भरावा लागतो?",
+                            q_en: "Which Form is used for New Voter Registration?",
+                            options: ["फॉर्म ६ (Form 6)", "फॉर्म ७ (Form 7)", "फॉर्म ८ (Form 8)", "फॉर्म ६-क"],
+                            options_en: ["Form 6", "Form 7", "Form 8", "Form 6A"],
+                            correct: 0,
+                            exp: "नवीन मतदार नोंदणीसाठी 'नमुना अर्ज ६' (Form 6) भरावा लागतो."
+                        },
+                        {
+                            q: "राष्ट्रीय मतदार हेल्पलाइन टोल-फ्री क्रमांक कोणता आहे?",
+                            q_en: "What is the National Voter Helpline Toll-Free Number?",
+                            options: ["१०८", "१००", "१९५०", "११२"],
+                            options_en: ["108", "100", "1950", "112"],
+                            correct: 2,
+                            exp: "१९५० हा निवडणूक आयोगाचा अधिकृत टोल-फ्री हेल्पलाइन क्रमांक आहे."
+                        }
+                    ];
+                    loadQuestion();
+                });
+        }
+
+        function loadQuestion() {
+            if (!quizQuestionsData || quizQuestionsData.length === 0) return;
+            answered = false;
+            const qData = quizQuestionsData[currentQIndex];
+            document.getElementById('quiz-step-counter').innerText = `प्रश्न ${currentQIndex + 1} / ${quizQuestionsData.length}`;
+            document.getElementById('quiz-score-display').innerText = `गुण: ${quizScore}`;
+            document.getElementById('quiz-question-text').innerText = currentLang === 'mr' ? qData.q : qData.q_en;
+
+            const optionsBox = document.getElementById('quiz-options');
+            optionsBox.innerHTML = '';
+
+            const opts = currentLang === 'mr' ? qData.options : qData.options_en;
+            opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-xl border border-gray-200 hover:border-cyan-600 hover:bg-teal-50 transition font-semibold text-sm text-gray-800 flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-gray-300 text-sm"></i>`;
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                optionsBox.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+        }
+
+        function selectQuizAnswer(selectedIndex, btnEl) {
+            if (answered) return;
+            answered = true;
+
+            const qData = quizQuestionsData[currentQIndex];
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('#quiz-options button');
+
+            if (selectedIndex === qData.correct) {
+                quizScore++;
+                btnEl.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                btnEl.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+                feedbackBox.className = "mt-4 p-3 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-900 block";
+                feedbackBox.innerText = `बरोबर उत्तर! ${qData.exp}`;
+            } else {
+                btnEl.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                btnEl.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600";
+                allBtns[qData.correct].classList.add('bg-emerald-50', 'border-emerald-400');
+                feedbackBox.className = "mt-4 p-3 rounded-lg text-xs font-bold bg-rose-50 text-rose-900 block";
+                feedbackBox.innerText = `चुकीचे उत्तर! योग्य उत्तर: ${qData.options[qData.correct]}. (${qData.exp})`;
+            }
+
+            document.getElementById('quiz-score-display').innerText = `गुण: ${quizScore}`;
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if (currentQIndex < quizQuestionsData.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-box').classList.add('hidden');
+                document.getElementById('quiz-result').classList.remove('hidden');
+                document.getElementById('quiz-result-score-text').innerText = `तुमचा निकाल: ${quizQuestionsData.length} पैकी ${quizScore} गुण`;
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        function resetQuiz() {
+            currentQIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-box').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        // Send Pledge Data to PledgeServlet
+        function submitPledgeToServlet(e) {
+            e.preventDefault();
+            const name = document.getElementById('pledge-name').value;
+            const area = document.getElementById('pledge-area').value;
+            const category = document.getElementById('pledge-category').value;
+
+            const params = new URLSearchParams();
+            params.append('name', name);
+            params.append('area', area);
+            params.append('category', category);
+
+            fetch('api/pledge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('cert-display-name').innerText = data.name;
+                document.getElementById('cert-display-area').innerText = `स्थान: ${data.area}`;
+                document.getElementById('cert-display-id').innerText = `प्रमाणपत्र क्रमांक: ${data.certId}`;
+                document.getElementById('cert-date').innerText = data.date;
+
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+                document.getElementById('certificate-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            })
+            .catch(() => {
+                // Fallback for standalone HTML execution
+                document.getElementById('cert-display-name').innerText = name;
+                document.getElementById('cert-display-area').innerText = `स्थान: ${area}`;
+                document.getElementById('cert-display-id').innerText = `प्रमाणपत्र क्रमांक: RTN-SVEEP-` + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('cert-date').innerText = new Date().toLocaleDateString('mr-IN');
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            });
+        }
+
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('#checklist-items input[type="checkbox"]');
+            let checked = 0;
+            checkboxes.forEach(cb => { if (cb.checked) checked++; });
+            const percentage = Math.round((checked / checkboxes.length) * 100);
+
+            document.getElementById('checklist-progress-text').innerText = `${percentage}% पूर्ण`;
+            document.getElementById('checklist-progress-bar').style.width = `${percentage}%`;
+
+            if (percentage === 100) {
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'mr' ? 'en' : 'mr';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'mr' ? 'English' : 'मराठी';
+            loadQuestion();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function speakSlogan(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'mr-IN';
+                window.speechSynthesis.speak(u);
+            }
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert("घोषवाक्य कॉपी झाले आहे!");
+        }
+
+        function sharePledge() {
+            const name = document.getElementById('cert-display-name').innerText;
+            const text = encodeURIComponent(`मी ${name}, रत्नागिरी चा जागरूक नागरिक म्हणून १००% मतदानाची प्रतिज्ञा घेतली आहे! तुम्हीसुद्धा डिजिटल प्रतिज्ञा घ्या: `);
+            window.open(`https://api.whatsapp.com/send?text=${text}${encodeURIComponent(window.location.href)}`, '_blank');
+        }
+
+        window.onload = function() {
+            fetchPollingDataFromServlet();
+            fetchQuizDataFromServlet();
+        };
+    </script>
+</body>
+</html>
