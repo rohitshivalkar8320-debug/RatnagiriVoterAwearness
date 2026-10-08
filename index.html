@@ -55,7 +55,6 @@
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #0081A7; border-radius: 4px; }
 
-        /* Hides everything except the certificate card when printing */
         @media print {
             body * {
                 visibility: hidden !important;
@@ -132,7 +131,6 @@
     <header class="konkan-gradient text-white relative overflow-hidden py-12 md:py-20 px-4">
         <div class="absolute inset-0 wave-bg"></div>
         <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            
             <div class="md:col-span-7 space-y-6 text-center md:text-left">
                 <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-white/30">
                     <i class="fa-solid fa-location-dot text-orange-500"></i> <span id="hero-location-tag">रत्नागिरी ४१५६१२ व संपूर्ण कोकण परिसर</span>
@@ -188,13 +186,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
-        <!-- All 6 Assembly Constituencies -->
+        <!-- Assembly Constituencies -->
         <section id="info-center" class="scroll-mt-24">
             <div class="text-center max-w-3xl mx-auto mb-10">
                 <span class="text-orange-500 font-bold text-sm tracking-wider uppercase" id="sec1-tag">कोकण मतदार मार्गदर्शिका</span>
@@ -278,7 +275,7 @@
             </div>
         </section>
 
-        <!-- Quiz Section (Full 15 Questions) -->
+        <!-- Quiz Section (With Response Capture) -->
         <section id="quiz" class="bg-gradient-to-br from-amber-50 via-orange-50 to-emerald-50 rounded-2xl p-6 md:p-10 border border-orange-200 shadow-md scroll-mt-24">
             <div class="max-w-3xl mx-auto text-center mb-8">
                 <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="quiz-badge-tag">युवा मतदार जागर</span>
@@ -316,6 +313,11 @@
                     <div class="inline-block bg-amber-100 text-amber-800 font-extrabold text-xs px-4 py-2 rounded-full border border-amber-300" id="quiz-badge-title">
                         🏆 प्राप्त पदवी: "जागरूक कोकणी मतदार २०२६"
                     </div>
+                    
+                    <div id="quiz-record-status" class="text-xs text-cyan-600 font-semibold italic">
+                        प्रतिसाद नोंदवला जात आहे...
+                    </div>
+
                     <div class="pt-4">
                         <button onclick="resetQuiz()" class="bg-cyan-600 text-white font-bold text-xs px-5 py-2.5 rounded-lg transition mr-2">
                             <i class="fa-solid fa-rotate-right mr-1"></i> <span id="btn-quiz-retry">पुन्हा प्रयत्न करा</span>
@@ -337,7 +339,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                    <form id="pledge-form" action="YOUR_FORMSPREE_ENDPOINT_HERE" method="POST" onsubmit="handlePledgeSubmit(event)" class="space-y-4">
+                    <form id="pledge-form" action="https://formspree.io/f/mgaoanjw" method="POST" onsubmit="handlePledgeSubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1" id="lbl-pledge-name">पूर्ण नाव (Full Name) *</label>
                             <input type="text" name="voter_name" id="pledge-name" required placeholder="उदा. मयुरेश कामत" class="w-full p-3 rounded-xl border-gray-300 border text-sm bg-white font-semibold">
@@ -426,15 +428,15 @@
         <p class="mt-1" id="ft-sub">स्वीप (SVEEP) संकल्पनेवर आधारित डिजिटल मतदार जनजागृती प्लॅटफॉर्म | पिनकोड ४१५६१२</p>
     </footer>
 
-    <!-- Script with 15 Questions -->
+    <!-- Script with Quiz Response Recording -->
     <script>
         let currentLang = 'mr';
         let allPollingData = [];
         let currentQIndex = 0;
         let quizScore = 0;
         let answered = false;
+        let userQuizAnswers = []; // Records user choice per question
 
-        // Complete 15 Electoral Questions Dataset
         const quizQuestionsData = [
             {
                 q: "भारत निवडणूक आयोगाच्या नियमानुसार मतदानासाठी किमान पात्रता वय किती असावे लागते?",
@@ -554,7 +556,7 @@
                 options: ["४", "५", "६", "८"],
                 options_en: ["4", "5", "6", "8"],
                 correct: 2,
-                exp: "रत्नागिरी-सिंधुदुर्ग लोकसभा क्षेत्रात एकूण ६ विधानसभा मतदारसंघांचा (दापोली, गुहागर, चिपळूण, रत्नागिरी, राजापूर, कुडाळ/कणकवली/सावंतवाडी परिसर) समावेश होतो."
+                exp: "रत्नागिरी-सिंधुदुर्ग लोकसभा क्षेत्रात एकूण ६ विधानसभा मतदारसंघांचा समावेश होतो."
             }
         ];
 
@@ -722,6 +724,14 @@
             const feedbackBox = document.getElementById('quiz-feedback');
             const allBtns = document.querySelectorAll('#quiz-options button');
 
+            // Record user response for analytics
+            userQuizAnswers.push({
+                question: qData.q_en,
+                selected: qData.options_en[selectedIndex],
+                correct: qData.options_en[qData.correct],
+                isRight: selectedIndex === qData.correct
+            });
+
             if (selectedIndex === qData.correct) {
                 quizScore++;
                 btnEl.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
@@ -751,13 +761,44 @@
                 document.getElementById('quiz-result').classList.remove('hidden');
                 const scoreText = currentLang === 'mr' ? `तुमचा निकाल: ${quizQuestionsData.length} पैकी ${quizScore} गुण` : `Your Result: ${quizScore} out of ${quizQuestionsData.length} Marks`;
                 document.getElementById('quiz-result-score-text').innerText = scoreText;
+                
+                sendQuizResponsesToOwner(); // Automatically record results
                 confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
             }
+        }
+
+        // Sends full quiz results and answer breakdown to the owner endpoint
+        function sendQuizResponsesToOwner() {
+            const formspreeEndpoint = document.getElementById('pledge-form').action;
+            const percentage = Math.round((quizScore / quizQuestionsData.length) * 100);
+
+            const formData = new FormData();
+            formData.append('submission_type', 'ELECTORAL_QUIZ_RESULTS');
+            formData.append('total_questions', quizQuestionsData.length);
+            formData.append('score_obtained', quizScore);
+            formData.append('percentage', `${percentage}%`);
+            formData.append('badge_earned', 'Aware Konkani Voter 2026');
+            formData.append('answers_breakdown', JSON.stringify(userQuizAnswers));
+
+            const statusEl = document.getElementById('quiz-record-status');
+
+            fetch(formspreeEndpoint, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(() => {
+                if (statusEl) statusEl.innerText = "✓ निकाल आणि प्रतिसाद मालकाकडे नोंदवले गेले आहेत!";
+            })
+            .catch(() => {
+                if (statusEl) statusEl.innerText = "✓ चाचणी पूर्ण झाली!";
+            });
         }
 
         function resetQuiz() {
             currentQIndex = 0;
             quizScore = 0;
+            userQuizAnswers = [];
             document.getElementById('quiz-result').classList.add('hidden');
             document.getElementById('quiz-box').classList.remove('hidden');
             loadQuestion();
